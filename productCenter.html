@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北京磁浮</title>
+    <style>
+        body {
+            background-color: #e0e0e0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        .product {
+            background-color: #fff;
+            width: auto;
+            height: auto;
+            margin: 20px;
+            /* 添加阴影效果 */
+            box-shadow: 0 0 15px 0 rgb(16 24 57 / 15%);
+        }
+
+        .product-content {
+            /* 使用flexbox布局来居中图片和文字 */
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-left: 20px;
+            text-align: center;
+        }
+
+        div span {
+            margin: 10px;
+            font-size: 20px;
+            line-height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 动态添加多个产品部分 -->
+    <div id="products-container">
+        <!-- 这里放置动态生成的产品部分 -->
+    </div>
+
+    <script>
+        // 数据集，包含不同产品的信息
+        const products = [
+            { name: "车辆智慧运维管理系统", imgSrc: "./1.png", url: "./detailsPage1.html" },
+            { name: "物资仓储管理系统", imgSrc: "./1.png", url: "./detailsPage2.html" },
+            { name: "无人值守仓库管理系统", imgSrc: "./1.png", url: "./detailsPage3.html" },
+            { name: "信号运维系统", imgSrc: "./1.png", url: "./detailsPage4.html" },
+            { name: "固定资产管理系统", imgSrc: "./1.png", url: "./detailsPage5.html" },
+            { name: "交通运营综报系统", imgSrc: "./1.png", url: "./detailsPage6.html" },
+            { name: "城轨辅助决策系统", imgSrc: "./1.png", url: "./detailsPage7.html" },
+            // 添加更多产品信息...
+        ];
+
+        // 使用JavaScript动态添加产品部分和绑定数据
+        function createProductSection(product) {
+            const productsContainer = document.getElementById("products-container");
+
+            const a = document.createElement("a");
+            a.href = product.url;
+
+            const productDiv = document.createElement("div");
+            productDiv.classList.add("product");
+
+            const productContentDiv = document.createElement("div");
+            productContentDiv.classList.add("product-content");
+
+            const img = document.createElement("img");
+            img.src = product.imgSrc;
+            img.alt = product.name;
+            const width = window.innerWidth * 0.08;
+            const height = width * (3 / 4);
+            img.style.width = width + "px";
+            img.style.height = height + "px";
+
+            const span = document.createElement("span");
+            span.textContent = product.name;
+
+            productContentDiv.appendChild(img);
+            productContentDiv.appendChild(span);
+
+            productDiv.appendChild(productContentDiv);
+            a.appendChild(productDiv);
+            productsContainer.appendChild(a);
+
+            // 监听a标签的点击事件，模拟点击跳转
+            a.addEventListener("click", function (event) {
+                event.preventDefault(); // 阻止默认跳转行为
+                window.location.href = product.url; // 手动跳转到指定页面
+            });
+        }
+
+        // 初始化时创建产品部分
+        const productsContainer = document.getElementById("products-container");
+        products.forEach(createProductSection);
+
+        // 监听窗口大小改变事件，在窗口大小改变时重新生成产品部分
+        window.addEventListener("resize", function () {
+            productsContainer.innerHTML = ""; // 清空容器内容
+            products.forEach(createProductSection); // 重新生成产品部分
+        });
+
+        // 更新图片大小函数
+        function updateImageSize() {
+            const imgs = productsContainer.querySelectorAll("img");
+            const width = window.innerWidth * 0.08; // 设置期望的宽度（窗口宽度的 8%）
+            const height = width * (3 / 4); // 调整高度以保持纵横比（假设纵横比为 4:3）
+
+            imgs.forEach(img => {
+                img.style.width = width + "px";
+                img.style.height = height + "px";
+            });
+        }
+
+        // 初始化时调用函数，并添加窗口大小改变时的监听器，以更新图片大小
+        updateImageSize();
+        window.addEventListener("resize", updateImageSize);
+    </script>
+</body>
+
+</html>
